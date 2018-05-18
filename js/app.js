@@ -6,11 +6,13 @@ let playerInfo = new Array;
 playerInfo = [
 	{
 		setActive: 'player1',
-		boxFill: 'box-filled-1'
+		boxFill: 'box-filled-1',
+		boxhover: 'hover1'
 	},
 	{
 		setActive: 'player2',
-		boxFill: 'box-filled-2'
+		boxFill: 'box-filled-2',
+		boxhover: 'hover2'
 	}
 ] 
 
@@ -32,8 +34,36 @@ function switchActivePlayer(getPlayer) {
 	let setOtherPlayer = document.getElementById(playerInfo[nextPlayer].setActive).className = 'players';
 }
 
-function setBox() { 
-	console.log('box');
-	document.getElementById('box22').classList.add(playerInfo[1].boxFill);
+function setBox(boxloc, cp) { 
+	console.log('box', boxloc," ..", currentPlayer );
+	document.getElementById(boxloc).classList.add(playerInfo[cp].boxFill);
+	if (currentPlayer == 1) {
+		console.log('in');
+		console.log('cp', currentPlayer);
+		return currentPlayer = 0;
+	} else {
+		console.log('in2');
+		console.log('cp', currentPlayer);
+		return currentPlayer = 1;
+	};
+
 }
 
+/* 
+document.getElementById('box8').addEventListener('click', function() { setBox('box8', currentPlayer) },false);
+
+document.addEventListener('DOMContentLoaded', function () {
+	document.getElementById('box9').addEventListener('click', function () {
+		setBox('box9', currentPlayer)
+	})
+});
+ */
+for (let i = 1; i <=9; i++) {
+	let tempx = "box" + i;
+	console.log(tempx);
+	document.addEventListener('DOMContentLoaded', function () {
+		document.getElementById(tempx).addEventListener('click', function () {
+			setBox(tempx, currentPlayer)
+		})
+	});
+}
