@@ -116,6 +116,8 @@ h1 {
 .screen-win-two p:before {
 	content: "×";
 	top: 4.5rem;
+	background-image:  url('../img/x.svg');
+
 }
 
 .board {
@@ -204,4 +206,12 @@ h1 {
 
 .box:hover{
 	background-image: url('../img/o.svg'); 
+}
+
+.box-filled-2:hover {
+	background-image:url('../img/x.svg');
+}
+
+.hover2:hover {
+	background-image:url('../img/x.svg');
 }
