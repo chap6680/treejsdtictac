@@ -1,5 +1,4 @@
 const playerNames = ['player1', 'player2'];
-//const currentPlayer = 'player1';
 let currentPlayer = 0;
 let nextPlayer = 1;
 let numberOfPlayers = 1;
@@ -22,7 +21,9 @@ playerInfo = [{
 	}
 ]
 let gridTrack = new Array;
-let gridTrackHistory = 0;
+let gridTrackHistory;
+
+//let gridTrackHistory = 0;
 gridTrack[gridTrackHistory] =new Array;
 let winners = [
 	[1, 2, 3],
@@ -46,6 +47,8 @@ function checkWinners() {
 			if (gridTrack[gridTrackHistory][winners[checkvar][0]] === checkvarPlayer && gridTrack[gridTrackHistory][winners[checkvar][1]] === checkvarPlayer && gridTrack[gridTrackHistory][winners[checkvar][2]] === checkvarPlayer) {
 				//console.log('winner player', checkvarPlayer);
 				gridTrackHistory += 1;
+				
+				localStorage.setItem('treetictac', JSON.stringify(gridTrack));	
 				insertWinnerScreen(checkvarPlayer);
 			}
 		}
@@ -59,7 +62,10 @@ function checkWinners() {
 		}
 		//	console.log("no players:", numberOfPlayers, ' - current P ', currentPlayer);
 	}
-	if (countEmpties === 1) { insertWinnerScreen('tie') };
+	if (countEmpties === 1) {
+		gridTrackHistory += 1;
+		insertWinnerScreen('tie')
+	};
 }
 
 function computerPick() { 
@@ -72,16 +78,10 @@ function computerPick() {
 			emptyBoxes.push(t);
 		}
 	}
-	getComputerPick = getRandomInt(emptyBoxes.length);
-	
+	getComputerPick = getRandomInt(emptyBoxes.length);	
 	getComputerPickIndex = emptyBoxes[getComputerPick];
-
-	console.log(' box is: ', 'box'+getComputerPickIndex, 'currentPlayer: ', currentPlayer);
-//	setBox('box6', 1);
-//	console.log('length ', getComputerPick, ' - value:', getComputerPickIndex, ' box is: ', 'box'+getComputerPickIndex, 'currentPlayer: ', currentPlayer);
-	
+//	console.log(' box is: ', 'box'+getComputerPickIndex, 'currentPlayer: ', currentPlayer);	
 	setBox('box' + getComputerPickIndex, currentPlayer);
-//	console.log('computer pick Index ', getComputerPickIndex);
 }
 
 function getRandomInt(max) {
@@ -89,14 +89,20 @@ function getRandomInt(max) {
   }
   
 
+function btnChange() { 
+	document.getElementById('finish').style.display = 'none';
+	document.getElementById('start').style.display = 'block';
+}
+
 function btnStart() {
+	
 	document.getElementById('start').style.display = 'none';
 	document.getElementById('finish').style.display = 'none';
-
 	updateName();
 	emptyBoxes[0] = 1;
+	console.log('current game number is: '+ gridTrackHistory);
 	if (gridTrackHistory > 0) { 
-		gridTrack.length = 0;
+//		gridTrack[gridTrackHistory].length = 0;
 		for (let i = 1; i <= 9; i++) {
 			let tempx = "box" + i;
 			document.getElementById('box' + i).classList.remove('box-filled-1');
@@ -109,7 +115,10 @@ function btnStart() {
 	
 	}
 	currentPlayer = 0;
-	gridTrack[gridTrackHistory] =new Array;
+	gridTrack[gridTrackHistory] = new Array;
+	gridTrack[gridTrackHistory][0] =  (playerInfo[0].pname + ' - ' + playerInfo[1].pname);
+	console.log('array ', gridTrack[gridTrackHistory][0]);
+
 	switchActivePlayer(currentPlayer);
 	//switchActivePlayer(currentPlayer);
 }
@@ -147,14 +156,6 @@ function btnTwoPlayer() {
 
 
 function insertWinnerScreen(player) {
-/* 	let winnerHTML = document.createElement('div');
-	winnerHTML.appendChild = '< div class= "screen screen-win screen-win-one" id = "finish" > </div>';
-	let getPlacement = document.getElementById('start');
-	getPlacement.parentNode.insertBefore(winnerHTML, getPlacement.nextSibling);
-	getPlacement = document.getElementById('finish').style.display = 'block';
-
-	*/	
-	//	winnerHTML.appendAfter(getPlacement);
 	document.getElementById('finish').style.display = 'block';
 	let tempE = document.getElementById('finish').children[2];
 	if (player == 'tie') {
@@ -172,11 +173,6 @@ function insertWinnerScreen(player) {
 }
 
 function switchActivePlayer(getPlayer) {
-	/* 	if (getPlayer = playerNames[0]) {
-			turnoffPlayer = playerNames[1];
-		} else {
-			turnoffPlayer = playerNames[0];
-		}; */
 	let tempActiveClass = 'players active';
 
 	let setActivePlayer = document.getElementById(playerInfo[currentPlayer].setActive).className = tempActiveClass;
@@ -227,28 +223,9 @@ function setBox(boxloc, cp) {
 		computerPick();
 	 }
 
-	/* 	if (currentPlayer == 1) {
-			console.log('in');
-			console.log('cp', currentPlayer);
-			return currentPlayer = 0;
-		} else {
-			console.log('in2');
-			console.log('cp', currentPlayer);
-			gridTrack[boxloc.substr(boxloc.length - 1)] = 0;
-			return currentPlayer = 1;
-		};
-	 */
+
 }
 
-/* 
-document.getElementById('box8').addEventListener('click', function() { setBox('box8', currentPlayer) },false);
-
-document.addEventListener('DOMContentLoaded', function () {
-	document.getElementById('box9').addEventListener('click', function () {
-		setBox('box9', currentPlayer)
-	})
-});
- */
 for (let i = 1; i <= 9; i++) {
 	let tempx = "box" + i;
 	//console.log(tempx);
@@ -260,3 +237,28 @@ for (let i = 1; i <= 9; i++) {
 		})
 	});
 }
+
+function storageAvailable(type) {
+    try {
+        var storage = window[type],
+            x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            storage.length !== 0;
+    }
+} 
+

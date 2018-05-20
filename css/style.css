@@ -67,7 +67,7 @@ p {
 
 .screen h1 {
 	color: #fff;
-	margin-top: 30px;
+	margin-top: 10px;
 	margin-bottom: 30px;
 }
 
@@ -84,7 +84,7 @@ p {
 }
 
 .screen-start h1+.button {
-	margin-top: 5em;
+	margin-top: .25em;
 }
 
 .screen-win p {
