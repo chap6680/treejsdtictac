@@ -13,13 +13,33 @@
 	<div class="screen screen-start" id="start">
 		<header>
 			<h1>Tic Tac Toe</h1>
+			<div>
+				<input type="text" id="player1name" name="name" value="Player 1" onfocusout="updateName()">
+				<br>
+				<label for="player1name">Player One Name</label>
+				<br>
+
+				<div id="player2group" style="display:none">
+					<br>
+					<input type="text" id="player2name" name="name" value="Player 2" onfocusout="updateName()">
+					<br>
+					<label for="player2name">Player Two Name</label>
+				</div>
+				<br>
+				<a href="#" class="button playerNum active" id="btnPlayerNum1" onclick="btnOnePlayer()">One Player</a>
+				<a href="#" class="button playerNum" id="btnPlayerNum2" onclick="btnTwoPlayer()">Two Players</a>
+			</div>
+			<br>
 			<a href="#" class="button" onclick="btnStart()">Start game</a>
+
 		</header>
 	</div>
 
- <div class="screen screen-win" id="finish" style="display: none">
+	<div class="screen screen-win" id="finish" style="display: none">
 		<h1>Tic Tac Toe</h1>
+		<br>
 		<p>Winner</p>
+	
 		<a href="#" class="button" onclick="btnStart()">Start game</a>
 	</div>
 
@@ -38,6 +58,7 @@
 							</g>
 						</g>
 					</svg>
+					<p>Player 1</p>
 				</li>
 				<li class="players" id="player2">
 					<svg xmlns="http://www.w3.org/2000/svg" width="42" height="43" viewBox="0 0 42 43" version="1.1">
@@ -50,11 +71,12 @@
 							</g>
 						</g>
 					</svg>
+					<p>Computer</p>
 				</li>
 			</ul>
 		</header>
 
-	
+
 		<ul class="boxes">
 			<li id='box1' class="box"></li>
 			<li id='box2' class="box"></li>
@@ -69,4 +91,5 @@
 	</div>
 </body>
 <script src="js/app.js"></script>
+
 </html>
