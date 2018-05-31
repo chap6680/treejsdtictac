@@ -13,7 +13,7 @@
 	<div class="screen screen-start" id="start">
 		<header>
 			<h1>Tic Tac Toe</h1>
-
+		
 			<div>
 				<input type="text" id="player1name" name="name" value="Player 1" onfocusout="updateName()">
 				<br>
@@ -22,7 +22,7 @@
 
 				<div id="player2group" style="display:none">
 					<br>
-					<input type="text" id="player2name" name="name" value="Player 2" onfocusout="updateName()">
+					<input type="text" id="player2name" name="name" value="Computer" onfocusout="updateName()">
 					<br>
 					<label for="player2name">Player Two Name</label>
 				</div>
@@ -45,6 +45,9 @@
 		<br>
 		<br>
 		<a href="#" class="button" onclick="btnChange()">Change Players</a>
+		<br>
+		<br>
+		<a href="#" class="button" onclick="btnHistory()">Game History</a>
 	</div>
 
 	<div class="board" id="board">
