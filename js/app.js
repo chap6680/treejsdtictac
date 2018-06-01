@@ -130,7 +130,7 @@ function btnHistory() {
 	let tempHistoryNo = 0;
 	Array.from(gridTrack).forEach(function (x) {
 		tempHistoryNo = tempHistoryNo + 1;
-		tempHistory =  tempHistory + '\n' + 'Game ' + tempHistoryNo + ' ' + x[0] + ' : ' + x[10];
+		tempHistory =  tempHistory + '\n' + 'Game ' + tempHistoryNo + ':  ' + x[0] + '    ' + x[10];
 	});
 	alert(tempHistory);
 }
@@ -138,6 +138,7 @@ function btnHistory() {
 
 function btnStart() {
 	winner = '';
+	document.getElementById(playerInfo[0].setActive).className = 'players active';
 	document.getElementById('start').style.display = 'none';
 	document.getElementById('finish').style.display = 'none';
 	updateName();
@@ -156,9 +157,9 @@ function btnStart() {
 	}
 	currentPlayer = 0;
 	gridTrack[gridTrackGameNo] = new Array;
-	gridTrack[gridTrackGameNo][0] = (playerInfo[0].pname + ' - ' + playerInfo[1].pname);
+	gridTrack[gridTrackGameNo][0] = (playerInfo[0].pname + ' vs ' + playerInfo[1].pname);
 	
-	switchActivePlayer(currentPlayer);
+	//switchActivePlayer(currentPlayer);
 }
 
 //puts the player name in the header box
@@ -201,13 +202,34 @@ function insertWinnerScreen(player) {
 	let tempE = document.getElementById('finish').children[2];
 	if (player == 'tie') {
 		let tempEE = "TIE";
-		document.getElementById('finish').children[2].innerHTML = tempEE;
+		document.getElementById('winText').textContent = tempEE;
+		
 		document.getElementById('finish').classList.add('screen-win-tie');
 		document.getElementById(playerInfo[0].setActive).className = 'players';
 		document.getElementById(playerInfo[1].setActive).className = 'players';
+
+		document.getElementById('winContain').style.display = "block";
+		document.getElementById('winOimg').style.display = 'none';
+		document.getElementById('winXimg').style.display = 'none'
+
 	} else {
-		let tempEE = "Winner<br>" + playerInfo[player].pname;
-		document.getElementById('finish').children[2].innerHTML = tempEE;
+
+/* 		<div class="picContainer">
+		<img src="img/o.svg" alt="Kiwi standing on oval">
+		<div class="picText">xxxxxxxxxx</div>
+	</div>
+ */		let tempEE = "Winner "  + playerInfo[player].pname;
+		//document.getElementById('finish').children[2].innerHTML = tempEE;
+		if (winner == 0) {
+			document.getElementById('winContain').style.display = "block";
+			document.getElementById('winOimg').style.display = 'inline';
+			document.getElementById('winXimg').style.display = 'none'
+		} else if (winner == 1) {
+			document.getElementById('winContain').style.display = "block";			
+			document.getElementById('winXimg').style.display = 'inline'	
+			document.getElementById('winOimg').style.display = 'none';
+		};	
+		document.getElementById('winText').textContent = tempEE;
 		
 		document.getElementById('finish').classList.add(playerInfo[currentPlayer].winnerScreen);
 		document.getElementById(playerInfo[Math.abs(player)].setActive).className='players';
@@ -218,9 +240,12 @@ function insertWinnerScreen(player) {
 //function called after every play - to switch current player
 function switchActivePlayer(getPlayer) {
 	let tempActiveClass = 'players active';
-
-	let setActivePlayer = document.getElementById(playerInfo[currentPlayer].setActive).className = tempActiveClass;
-	let setOtherPlayer = document.getElementById(playerInfo[nextPlayer].setActive).className = 'players';
+	if (winner === '') {
+		document.getElementById(playerInfo[currentPlayer].setActive).className = tempActiveClass;
+	} else { 
+		document.getElementById(playerInfo[nextPlayer].setActive).className = 'players';
+	};
+	document.getElementById(playerInfo[nextPlayer].setActive).className = 'players';
 }
 
 
@@ -257,8 +282,10 @@ function setBox(boxloc, cp) {
 	//	document.getElementById(playerInfo[Math.abs(cp - 1)].setActive).classList.add('active');
 	};
 
+	nextPlayer = cp;
 	currentPlayer = Math.abs(cp - 1);
-
+	
+	switchActivePlayer(currentPlayer) 
 	if (numberOfPlayers === 1 && currentPlayer === 1&&winner==='') {
 		computerPick();
 	}

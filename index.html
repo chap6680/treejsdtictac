@@ -13,7 +13,7 @@
 	<div class="screen screen-start" id="start">
 		<header>
 			<h1>Tic Tac Toe</h1>
-		
+			
 			<div>
 				<input type="text" id="player1name" name="name" value="Player 1" onfocusout="updateName()">
 				<br>
@@ -39,8 +39,12 @@
 	<div class="screen screen-win" id="finish" style="display: none">
 		<h1>Tic Tac Toe</h1>
 		<br>
-		<p>Winner</p>
-		
+		<div class="picContainer" id="winContain" style="display:none">
+				<img src="img/o.svg" id="winOimg" alt="Winner O" style="display: none">
+				<img src="img/x.svg" id="winXimg" alt="Winner X" style="display: none">
+				<div class="picText" id="winText">Winner</div>
+		</div>
+
 		<a href="#" class="button" onclick="btnStart()">Play again</a>
 		<br>
 		<br>
